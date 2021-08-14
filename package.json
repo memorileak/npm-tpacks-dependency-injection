@@ -4,7 +4,8 @@
   "description": "Implement Injector and Provider of Dependency Injection pattern",
   "type": "module",
   "scripts": {
-    "test": "jest"
+    "build": "npx tsc",
+    "test": "npx tsc && npx jest"
   },
   "main": "index.js",
   "keywords": [
@@ -22,12 +23,15 @@
   "author": "tungnvan",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^27.0.1",
     "eslint": "^7.22.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.3.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.3.1",
-    "jest": "^26.6.3"
+    "jest": "^27.0.6",
+    "ts-jest": "^27.0.4",
+    "typescript": "^4.3.5"
   }
 }

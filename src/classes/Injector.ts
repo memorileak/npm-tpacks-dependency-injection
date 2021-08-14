@@ -19,53 +19,43 @@ export class Injector {
     return this;
   }
 
+  getServicesOfTokens(injectionTokens: Array<InjectionToken>): Array<any> {
+    return injectionTokens.map((token) => this.getServiceOfToken(token));
+  }
+
   getServiceOfToken(injectionToken: InjectionToken): any {
     const provider = this.findFirstProviderCanProvideToken(injectionToken);
     if (provider) {
-      const {useClass, type, dependencies} = provider.getProviderConfigOfToken(injectionToken);
-      return this.getServiceInstanceBasedOnServiceType(type, provider, useClass, dependencies);
+      const {useClass, type} = provider.getProviderConfigOfToken(injectionToken);
+      return this.getServiceInstanceBasedOnServiceType(type, provider, useClass);
     } else {
       throw new Error(`Injection token ${injectionToken} is not found in any provider in this injector`);
     }
   }
 
-  findFirstProviderCanProvideToken(injectionToken: InjectionToken): Provider | undefined {
+  private findFirstProviderCanProvideToken(injectionToken: InjectionToken): Provider | undefined {
     return this.providers
       .find((provider) => provider.isAbleToProvideToken(injectionToken));
   }
 
-  getServiceInstanceBasedOnServiceType(
+  private getServiceInstanceBasedOnServiceType(
     serviceType: ServiceType, 
     provider: Provider, 
     ServiceClass: Constructor<any>, 
-    dependencyTokens: Array<InjectionToken>,
   ): any {
     if (serviceType === ServiceType.singleton) {
-      return this.getSingletonServiceInstance(provider, ServiceClass, dependencyTokens);
+      return this.getSingletonServiceInstance(provider, ServiceClass);
     } else {
-      return this.makeServiceInstance(ServiceClass, dependencyTokens);
+      return this.makeServiceInstance(ServiceClass);
     }
   }
 
-  getSingletonServiceInstance(
-    provider: Provider, 
-    ServiceClass: Constructor<any>, 
-    dependencyTokens: Array<InjectionToken>,
-  ): any {
-    const dependencyInstances = this.getServicesOfTokens(dependencyTokens);
+  private getSingletonServiceInstance(provider: Provider, ServiceClass: Constructor<any>): any {
     return this.singletonStorage
-      .getSingletonInstance(provider, ServiceClass, dependencyInstances);
+      .getSingletonInstance(provider, ServiceClass, []);
   }
 
-  private makeServiceInstance(
-    ServiceClass: Constructor<any>, 
-    dependencyTokens: Array<InjectionToken>,
-  ): any {
-    const dependencyInstances = this.getServicesOfTokens(dependencyTokens);
-    return new ServiceClass(...dependencyInstances);
-  }
-
-  getServicesOfTokens(injectionTokens: Array<InjectionToken>): Array<any> {
-    return injectionTokens.map((token) => this.getServiceOfToken(token));
+  private makeServiceInstance(ServiceClass: Constructor<any>): any {
+    return new ServiceClass();
   }
 }

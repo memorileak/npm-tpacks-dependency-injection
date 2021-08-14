@@ -24,7 +24,6 @@ export class Provider {
       provide: this.validateInjectionToken(registerInfo.provide),
       useClass: this.validateServiceClass(registerInfo.useClass),
       type: this.validateServiceType(registerInfo.type),
-      dependencies: this.validateDependencyTokens(registerInfo.dependencies),
     };
   }
 
@@ -53,15 +52,6 @@ export class Provider {
       throw new Error('Invalid service type: Service type must be "singleton" or "instantiation"');
     }
     return serviceType;
-  }
-
-  private validateDependencyTokens(dependencyTokens?: Array<InjectionToken>): Array<InjectionToken> {
-    if (!dependencyTokens) {
-      return [];
-    } else if (dependencyTokens && !Array.isArray(dependencyTokens)) {
-      throw new Error('Invalid dependency tokens: Dependency tokens must be a list of injection token');
-    }
-    return dependencyTokens;
   }
 
   getProviderConfigOfToken(injectionToken: InjectionToken): FullDepRegisterInfo {
