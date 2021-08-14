@@ -153,4 +153,4 @@ tags
 # Define by myself
 test/
 *.test.js
-built/
+src/
