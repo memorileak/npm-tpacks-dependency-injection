@@ -3,5 +3,5 @@ import {Provider} from '../classes/Provider';
 
 export interface InjectConfig {
   dependencies: Array<InjectionToken>,
-  providers: Array<Provider>,
+  providers?: Array<Provider>,
 }

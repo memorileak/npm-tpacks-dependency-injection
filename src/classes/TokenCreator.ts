@@ -1,7 +1,9 @@
 import {nanoid} from 'nanoid';
 
+import {InjectionToken} from '../types/InjectionToken';
+
 export class TokenCreator {
-  static create(): string {
-    return nanoid();
+  static create(): InjectionToken {
+    return <InjectionToken>(nanoid());
   }
 }
