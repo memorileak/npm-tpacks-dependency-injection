@@ -1,6 +1,6 @@
 {
   "name": "@tpacks/dependency-injection",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Implement Injector and Provider of Dependency Injection pattern",
   "type": "module",
   "scripts": {
